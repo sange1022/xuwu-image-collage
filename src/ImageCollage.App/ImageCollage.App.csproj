@@ -9,6 +9,7 @@
     <AssemblyName>XuwuImageCollage</AssemblyName>
     <RootNamespace>ImageCollage.App</RootNamespace>
     <Product>戌無图片拼图</Product>
+    <Version>1.0.1</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
