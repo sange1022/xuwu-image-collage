@@ -99,6 +99,51 @@ public partial class MainWindow : Window
         Photos.Move(index, index + 1); PhotoList.SelectedIndex = index + 1; await RefreshPreviewAsync();
     }
 
+    private void PhotoList_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePositionPanel();
+
+    private void TogglePositionPanel_Click(object sender, RoutedEventArgs e)
+    {
+        PositionPanel.Visibility = PositionPanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        AdjustPositionButton.Content = PositionPanel.Visibility == Visibility.Visible ? "✓ 完成位置调整" : "✥ 调整图片位置";
+        UpdatePositionPanel();
+    }
+
+    private async void MovePhotoPosition_Click(object sender, RoutedEventArgs e)
+    {
+        if (PhotoList.SelectedItem is not PhotoItem photo || sender is not Button button) return;
+        const double step = .1;
+        switch (button.Tag?.ToString())
+        {
+            case "left": photo.OffsetX = Math.Max(-1, photo.OffsetX - step); break;
+            case "right": photo.OffsetX = Math.Min(1, photo.OffsetX + step); break;
+            case "up": photo.OffsetY = Math.Max(-1, photo.OffsetY - step); break;
+            case "down": photo.OffsetY = Math.Min(1, photo.OffsetY + step); break;
+        }
+        UpdatePositionPanel();
+        await RefreshPreviewAsync();
+    }
+
+    private async void ResetPhotoPosition_Click(object sender, RoutedEventArgs e)
+    {
+        if (PhotoList.SelectedItem is not PhotoItem photo) return;
+        photo.OffsetX = 0; photo.OffsetY = 0;
+        UpdatePositionPanel();
+        await RefreshPreviewAsync();
+    }
+
+    private void UpdatePositionPanel()
+    {
+        if (PositionPhotoName is null) return;
+        if (PhotoList.SelectedItem is not PhotoItem photo)
+        {
+            PositionPhotoName.Text = "请先选择左侧图片";
+            PositionValueText.Text = "水平 0% · 垂直 0%";
+            return;
+        }
+        PositionPhotoName.Text = $"正在调整：{photo.FileName}";
+        PositionValueText.Text = $"水平 {photo.OffsetX * 100:+0;-0;0}% · 垂直 {photo.OffsetY * 100:+0;-0;0}%";
+    }
+
     private void RefreshTemplates()
     {
         if (TemplateCombo is null) return;

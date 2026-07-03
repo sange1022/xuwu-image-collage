@@ -44,3 +44,13 @@
 - [ ] Run tests, Release build, and win-x64 publish from a clean command.
 - [ ] Check the executable and publish archive exist and record SHA-256 hashes.
 - [ ] Document installation, usage, supported formats, and the Windows installer command.
+
+### Task 5: Per-image position adjustment
+
+**Files:** `src/ImageCollage.Core/FocusCropCalculator.cs`, `tests/ImageCollage.Core.Tests/FocusCropCalculatorTests.cs`, `src/ImageCollage.App/PhotoItem.cs`, `src/ImageCollage.App/CollageRenderer.cs`, `src/ImageCollage.App/MainWindow.xaml`, `src/ImageCollage.App/MainWindow.xaml.cs`
+
+- [ ] Write failing tests for centered cover crop, horizontal/vertical movement, and clamped offsets.
+- [ ] Implement deterministic focus-aware cover crop geometry.
+- [ ] Store an independent X/Y focus offset on each imported photo.
+- [ ] Add an adjustment panel with four direction buttons and a center-reset button for the selected photo.
+- [ ] Use the focus offset in both preview and export, then rebuild the Win10 installer.

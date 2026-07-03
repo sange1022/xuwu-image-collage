@@ -7,6 +7,8 @@
 - 1–6 张图片，多种均分与不对称模板
 - 1:1、3:4、9:16、2:3、4:3、3:2、16:9 比例
 - 间隙与圆角拉杆、背景色、图片顺序调整
+- 选中图片后可上下左右调整格内取景，并可一键居中
+- 抗锯齿平滑圆角
 - JPG、PNG、WebP 高清导出
 - 选择保存位置、打开导出位置
 - 拖入图片或整个文件夹，全部本机处理
@@ -19,7 +21,7 @@
 .\build-windows.ps1
 ```
 
-产物位于 `releases`。推荐安装包名为 `XuwuImageCollage-1.0.1-Setup-Win10-x64.exe`；英文文件名可减少聊天软件和浏览器误拦截。若未安装 Inno Setup，脚本仍会生成免安装 ZIP。
+产物位于 `releases`。推荐安装包名为 `XuwuImageCollage-1.1.0-Setup-Win10-x64.exe`；英文文件名可减少聊天软件和浏览器误拦截。若未安装 Inno Setup，脚本仍会生成免安装 ZIP。
 
 macOS 维护机也可安装 NSIS 后执行 `makensis installer/ImageCollage.nsi`，直接生成同名安装版 EXE。
 

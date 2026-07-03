@@ -57,13 +57,12 @@ public static class CollageRenderer
             token.ThrowIfCancellationRequested();
             var cell = cells[i];
             using var source = Image.Load<Rgba32>(photos[i].Path);
-            source.Mutate(x => x.AutoOrient().Resize(new ResizeOptions
-            {
-                Mode = ResizeMode.Crop,
-                Position = AnchorPositionMode.Center,
-                Size = new Size(cell.Width, cell.Height),
-                Sampler = KnownResamplers.Lanczos3
-            }));
+            source.Mutate(x => x.AutoOrient());
+            var crop = FocusCropCalculator.Calculate(source.Width, source.Height, cell.Width, cell.Height,
+                photos[i].OffsetX, photos[i].OffsetY);
+            source.Mutate(x => x
+                .Crop(new Rectangle(crop.X, crop.Y, crop.Width, crop.Height))
+                .Resize(cell.Width, cell.Height, KnownResamplers.Lanczos3));
             ApplyRoundedCorners(source, Math.Min(radius, Math.Min(cell.Width, cell.Height) / 2));
             canvas.Mutate(x => x.DrawImage(source, new Point(cell.X, cell.Y), 1f));
         }
@@ -80,9 +79,8 @@ public static class CollageRenderer
                 var row = accessor.GetRowSpan(y);
                 for (var x = 0; x < image.Width; x++)
                 {
-                    var cx = x < radius ? radius - x : x >= image.Width - radius ? x - (image.Width - radius - 1) : 0;
-                    var cy = y < radius ? radius - y : y >= image.Height - radius ? y - (image.Height - radius - 1) : 0;
-                    if (cx > 0 && cy > 0 && cx * cx + cy * cy > radius * radius) row[x].A = 0;
+                    var opacity = RoundedCornerMask.OpacityAt(x, y, image.Width, image.Height, radius);
+                    if (opacity < 1) row[x].A = (byte)Math.Round(row[x].A * opacity);
                 }
             }
         });

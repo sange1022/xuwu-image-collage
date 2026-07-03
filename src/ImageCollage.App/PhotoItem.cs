@@ -11,4 +11,6 @@ public sealed class PhotoItem
     public required int PixelHeight { get; init; }
     public string FileName => System.IO.Path.GetFileName(Path);
     public string Dimensions => $"{PixelWidth} × {PixelHeight}";
+    public double OffsetX { get; set; }
+    public double OffsetY { get; set; }
 }

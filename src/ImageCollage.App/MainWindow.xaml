@@ -22,7 +22,7 @@
                         <TextBlock Text="图片列表" FontWeight="Bold" FontSize="15"/>
                         <TextBlock Text="最多 6 张 · 拖入图片或文件夹" Foreground="#7B8590" FontSize="11" Margin="0,4,0,0"/>
                     </StackPanel>
-                    <ListBox x:Name="PhotoList" ItemsSource="{Binding Photos}" SelectionMode="Single" BorderThickness="0">
+                    <ListBox x:Name="PhotoList" ItemsSource="{Binding Photos}" SelectionMode="Single" BorderThickness="0" SelectionChanged="PhotoList_SelectionChanged">
                         <ListBox.ItemTemplate><DataTemplate>
                             <Grid Margin="5" Width="215">
                                 <Grid.ColumnDefinitions><ColumnDefinition Width="58"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
@@ -58,6 +58,24 @@
                     </ComboBox>
                     <TextBlock Text="布局模板" Foreground="#707A85"/>
                     <ComboBox x:Name="TemplateCombo" DisplayMemberPath="Name" SelectionChanged="Setting_Changed"/>
+                    <Button x:Name="AdjustPositionButton" Content="✥ 调整图片位置" Height="38" Margin="0,0,0,10"
+                            Background="#EAF0FF" Foreground="#245FE5" FontWeight="SemiBold" Click="TogglePositionPanel_Click"/>
+                    <Border x:Name="PositionPanel" Visibility="Collapsed" Background="#F5F7FA" CornerRadius="7" Padding="10" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock x:Name="PositionPhotoName" Text="请先选择左侧图片" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="移动图片在当前拼图格内的取景" Foreground="#7B8590" FontSize="11" Margin="0,3,0,8"/>
+                            <Grid Width="142" HorizontalAlignment="Center">
+                                <Grid.RowDefinitions><RowDefinition Height="34"/><RowDefinition Height="34"/><RowDefinition Height="34"/></Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="46"/><ColumnDefinition Width="46"/><ColumnDefinition Width="46"/></Grid.ColumnDefinitions>
+                                <Button Grid.Row="0" Grid.Column="1" Content="↑" Tag="up" Margin="2" Padding="0" Click="MovePhotoPosition_Click"/>
+                                <Button Grid.Row="1" Grid.Column="0" Content="←" Tag="left" Margin="2" Padding="0" Click="MovePhotoPosition_Click"/>
+                                <Button Grid.Row="1" Grid.Column="1" Content="居中" Margin="2" Padding="0" FontSize="10" Click="ResetPhotoPosition_Click"/>
+                                <Button Grid.Row="1" Grid.Column="2" Content="→" Tag="right" Margin="2" Padding="0" Click="MovePhotoPosition_Click"/>
+                                <Button Grid.Row="2" Grid.Column="1" Content="↓" Tag="down" Margin="2" Padding="0" Click="MovePhotoPosition_Click"/>
+                            </Grid>
+                            <TextBlock x:Name="PositionValueText" Text="水平 0% · 垂直 0%" Foreground="#68727D" FontSize="11" HorizontalAlignment="Center" Margin="0,7,0,0"/>
+                        </StackPanel>
+                    </Border>
                     <TextBlock Text="间隙" Foreground="#707A85"/>
                     <DockPanel><TextBlock Text="{Binding ElementName=GapSlider,Path=Value,StringFormat={}{0:F0} px}" DockPanel.Dock="Right" Width="55" TextAlignment="Right"/>
                         <Slider x:Name="GapSlider" Minimum="0" Maximum="80" ValueChanged="Setting_Changed"/></DockPanel>
