@@ -19,7 +19,7 @@
 .\build-windows.ps1
 ```
 
-产物位于 `releases`：安装版 EXE 与免安装 ZIP。若未安装 Inno Setup，脚本仍会生成免安装 ZIP。
+产物位于 `releases`。推荐安装包名为 `XuwuImageCollage-1.0-Setup-Win10-x64.exe`；英文文件名可减少聊天软件和浏览器误拦截。若未安装 Inno Setup，脚本仍会生成免安装 ZIP。
 
 macOS 维护机也可安装 NSIS 后执行 `makensis installer/ImageCollage.nsi`，直接生成同名安装版 EXE。
 

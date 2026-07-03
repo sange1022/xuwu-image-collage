@@ -1,7 +1,7 @@
 #define AppName "戌無图片拼图"
 #define AppVersion "1.0"
 #define AppPublisher "戌無营造"
-#define AppExeName "戌無图片拼图.exe"
+#define AppExeName "XuwuImageCollage.exe"
 
 [Setup]
 AppId={{8B8C232F-B721-45A0-B25A-512F6AE8245F}

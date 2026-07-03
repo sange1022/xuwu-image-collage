@@ -6,9 +6,10 @@
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>戌無图片拼图</AssemblyName>
+    <AssemblyName>XuwuImageCollage</AssemblyName>
     <RootNamespace>ImageCollage.App</RootNamespace>
     <Product>戌無图片拼图</Product>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../ImageCollage.Core/ImageCollage.Core.csproj" />
