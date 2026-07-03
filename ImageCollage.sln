@@ -1,0 +1,31 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageCollage.Core", "src\ImageCollage.Core\ImageCollage.Core.csproj", "{72B408DA-CE34-45C7-B360-26F3629F8435}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageCollage.App", "src\ImageCollage.App\ImageCollage.App.csproj", "{864F9F81-530B-4015-912D-5D16E5D5877C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageCollage.Core.Tests", "tests\ImageCollage.Core.Tests\ImageCollage.Core.Tests.csproj", "{C29C8730-D244-493B-81CE-9226D0A2FC9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72B408DA-CE34-45C7-B360-26F3629F8435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B408DA-CE34-45C7-B360-26F3629F8435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B408DA-CE34-45C7-B360-26F3629F8435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B408DA-CE34-45C7-B360-26F3629F8435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{864F9F81-530B-4015-912D-5D16E5D5877C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{864F9F81-530B-4015-912D-5D16E5D5877C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{864F9F81-530B-4015-912D-5D16E5D5877C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{864F9F81-530B-4015-912D-5D16E5D5877C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C29C8730-D244-493B-81CE-9226D0A2FC9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C29C8730-D244-493B-81CE-9226D0A2FC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C29C8730-D244-493B-81CE-9226D0A2FC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C29C8730-D244-493B-81CE-9226D0A2FC9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

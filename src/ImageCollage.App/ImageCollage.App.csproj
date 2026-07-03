@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>戌無图片拼图</AssemblyName>
+    <RootNamespace>ImageCollage.App</RootNamespace>
+    <Product>戌無图片拼图</Product>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../ImageCollage.Core/ImageCollage.Core.csproj" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+  </ItemGroup>
+</Project>
