@@ -1,5 +1,7 @@
 # 戌無图片拼图
 
+网页版：[https://sange1022.github.io/xuwu-image-collage/](https://sange1022.github.io/xuwu-image-collage/)
+
 面向 Windows 10/11 x64 的离线图片拼图工具，界面与“图片加水印”保持一致：左侧导入与排序、中间实时预览、右侧设置与导出。
 
 ## 功能
@@ -28,3 +30,13 @@ macOS 维护机也可安装 NSIS 后执行 `makensis installer/ImageCollage.nsi`
 ## 使用
 
 添加或拖入 1–6 张图片，使用“上移/下移”调整顺序，在右侧选择画布比例和模板。间隙、圆角与背景色会实时反映到预览；选择导出目录、尺寸和格式后点击“导出拼图”。
+
+## 网页版开发
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+网页版使用 Canvas 在浏览器本地处理图片，通过 GitHub Actions 自动部署至 GitHub Pages。
