@@ -80,9 +80,25 @@ export default function App() {
     } : photo))
   }
 
+  const zoomSelected = (delta) => {
+    if (!selected) return
+    setPhotos((current) => current.map((photo) => photo.id === selected.id ? {
+      ...photo,
+      zoom: Math.max(.5, Math.min(3, Math.round(((photo.zoom || 1) + delta) * 100) / 100)),
+    } : photo))
+  }
+
+  const setSelectedZoom = (zoom) => {
+    if (!selected) return
+    setPhotos((current) => current.map((photo) => photo.id === selected.id ? {
+      ...photo,
+      zoom: Math.max(.5, Math.min(3, zoom)),
+    } : photo))
+  }
+
   const resetPosition = () => {
     if (!selected) return
-    setPhotos((current) => current.map((photo) => photo.id === selected.id ? { ...photo, offsetX: 0, offsetY: 0 } : photo))
+    setPhotos((current) => current.map((photo) => photo.id === selected.id ? { ...photo, offsetX: 0, offsetY: 0, zoom: 1 } : photo))
   }
 
   const download = async () => {
@@ -104,7 +120,7 @@ export default function App() {
     <div className="workspace">
       <PhotoRail photos={photos} selectedId={selected?.id} onSelect={setSelectedId} onAdd={addFiles} onRemove={removeSelected} onClear={clear} onMove={move}/>
       <CanvasPreview photos={photos} settings={settings} template={activeTemplate} onFiles={addFiles}/>
-      <Inspector photos={photos} selected={selected} settings={settings} templateId={activeTemplate.id} onSettings={(key, value) => setSettings((current) => ({ ...current, [key]: value }))} onTemplate={setTemplateId} onNudge={nudge} onReset={resetPosition} onExport={download} exporting={exporting}/>
+      <Inspector photos={photos} selected={selected} settings={settings} templateId={activeTemplate.id} onSettings={(key, value) => setSettings((current) => ({ ...current, [key]: value }))} onTemplate={setTemplateId} onNudge={nudge} onZoom={zoomSelected} onSetZoom={setSelectedZoom} onReset={resetPosition} onExport={download} exporting={exporting}/>
     </div>
     <footer className="status-bar"><span>{status}</span><span>图片数量：{photos.length}</span><span>画布比例：{settings.ratio}</span></footer>
   </div>

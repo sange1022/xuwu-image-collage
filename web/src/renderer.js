@@ -1,4 +1,4 @@
-import { canvasSize, coverCrop, pixelCells } from './geometry.js'
+import { canvasSize, imagePlacement, pixelCells } from './geometry.js'
 
 export function loadPhoto(file) {
   return new Promise((resolve, reject) => {
@@ -6,7 +6,7 @@ export function loadPhoto(file) {
     const image = new Image()
     image.onload = () => resolve({
       id: crypto.randomUUID(), name: file.name, url, image,
-      width: image.naturalWidth, height: image.naturalHeight, offsetX: 0, offsetY: 0,
+      width: image.naturalWidth, height: image.naturalHeight, offsetX: 0, offsetY: 0, zoom: 1,
     })
     image.onerror = () => { URL.revokeObjectURL(url); reject(new Error(`无法读取 ${file.name}`)) }
     image.src = url
@@ -45,11 +45,11 @@ export function renderCollage(canvas, { photos, template, ratio, longEdge, gap, 
   cells.forEach((cell, index) => {
     const photo = photos[index]
     if (!photo) return
-    const crop = coverCrop(photo.width, photo.height, cell.width, cell.height, photo.offsetX, photo.offsetY)
+    const placement = imagePlacement(photo.width, photo.height, cell.width, cell.height, photo.offsetX, photo.offsetY, photo.zoom)
     ctx.save()
     roundedRect(ctx, cell.x, cell.y, cell.width, cell.height, radius)
     ctx.clip()
-    ctx.drawImage(photo.image, crop.sx, crop.sy, crop.sw, crop.sh, cell.x, cell.y, cell.width, cell.height)
+    ctx.drawImage(photo.image, cell.x + placement.dx, cell.y + placement.dy, placement.dw, placement.dh)
     ctx.restore()
   })
   return size

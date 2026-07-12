@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { canvasSize, coverCrop, getTemplates, pixelCells } from './geometry.js'
+import { canvasSize, coverCrop, getTemplates, imagePlacement, pixelCells } from './geometry.js'
 
 describe('collage geometry', () => {
   it('creates portrait canvas from long edge', () => {
@@ -19,5 +19,10 @@ describe('collage geometry', () => {
 
   it('moves image content left by revealing the right side', () => {
     expect(coverCrop(2000, 1000, 1000, 1000, -1, 0)).toEqual({ sx: 1000, sy: 0, sw: 1000, sh: 1000 })
+  })
+
+  it('scales a single image inside its cell without changing the cell', () => {
+    const placement = imagePlacement(1000, 1000, 500, 500, 0, 0, 1.5)
+    expect(placement).toEqual({ dx: -125, dy: -125, dw: 750, dh: 750 })
   })
 })

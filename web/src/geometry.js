@@ -74,3 +74,20 @@ export function coverCrop(sourceWidth, sourceHeight, targetWidth, targetHeight, 
     sh,
   }
 }
+
+export function imagePlacement(sourceWidth, sourceHeight, targetWidth, targetHeight, offsetX = 0, offsetY = 0, zoom = 1) {
+  const safeZoom = Math.max(.5, Math.min(3, zoom || 1))
+  const baseScale = Math.max(targetWidth / sourceWidth, targetHeight / sourceHeight)
+  const drawWidth = sourceWidth * baseScale * safeZoom
+  const drawHeight = sourceHeight * baseScale * safeZoom
+  const x = Math.max(-1, Math.min(1, offsetX))
+  const y = Math.max(-1, Math.min(1, offsetY))
+  const travelX = Math.abs(drawWidth - targetWidth) / 2
+  const travelY = Math.abs(drawHeight - targetHeight) / 2
+  return {
+    dx: (targetWidth - drawWidth) / 2 + x * travelX,
+    dy: (targetHeight - drawHeight) / 2 + y * travelY,
+    dw: drawWidth,
+    dh: drawHeight,
+  }
+}
