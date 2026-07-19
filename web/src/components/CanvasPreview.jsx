@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { ImagePlus } from 'lucide-react'
+import { ImagePlus, LockKeyhole } from 'lucide-react'
 import { renderCollage } from '../renderer.js'
 
 export function CanvasPreview({ photos, settings, template, onFiles }) {
@@ -22,10 +22,12 @@ export function CanvasPreview({ photos, settings, template, onFiles }) {
   }
 
   return <main className="preview-zone" onDragOver={(e) => e.preventDefault()} onDrop={drop}>
+    <div className="canvas-toolbar" aria-label="画布状态"><span className="canvas-mode">拼图画布</span><span className="toolbar-divider"/><span>{photos.length || 0} 张图片</span><span className="toolbar-divider"/><span>{settings.ratio}</span></div>
     <div className={`canvas-frame ${photos.length ? '' : 'is-empty'}`}>
       {photos.length
         ? <canvas ref={canvasRef} aria-label="拼图预览" />
         : <div className="empty-state"><ImagePlus size={42}/><strong>把图片拖到这里</strong><span>支持 JPG、PNG、WebP，最多 6 张</span></div>}
     </div>
+    <div className="canvas-footnote"><LockKeyhole size={13}/><span>图片不会离开这台设备</span></div>
   </main>
 }

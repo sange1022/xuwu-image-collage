@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Images, ShieldCheck } from 'lucide-react'
+import { Download, Images, ShieldCheck } from 'lucide-react'
 import { CanvasPreview } from './components/CanvasPreview.jsx'
 import { Inspector } from './components/Inspector.jsx'
 import { PhotoRail } from './components/PhotoRail.jsx'
@@ -116,12 +116,22 @@ export default function App() {
   }
 
   return <div className="app-shell">
-    <header className="app-header"><div className="brand"><span className="brand-mark"><Images size={20}/></span><div><h1>戌無图片拼图</h1><p>本地、快速、所见即所得</p></div></div><div className="local-badge"><ShieldCheck size={16}/>图片不会上传</div></header>
+    <header className="app-header">
+      <div className="window-side">
+        <div className="traffic-lights" aria-hidden="true"><i/><i/><i/></div>
+        <div className="brand"><span className="brand-mark"><Images size={18}/></span><h1>戌無图片拼图</h1></div>
+      </div>
+      <div className="document-state"><i/>{status}</div>
+      <div className="header-actions">
+        <div className="local-badge"><ShieldCheck size={14}/>仅在本地处理</div>
+        <button className="header-export" disabled={!photos.length || exporting} onClick={download}><Download size={16}/>{exporting ? '正在导出…' : '导出拼图'}</button>
+      </div>
+    </header>
     <div className="workspace">
       <PhotoRail photos={photos} selectedId={selected?.id} onSelect={setSelectedId} onAdd={addFiles} onRemove={removeSelected} onClear={clear} onMove={move}/>
       <CanvasPreview photos={photos} settings={settings} template={activeTemplate} onFiles={addFiles}/>
       <Inspector photos={photos} selected={selected} settings={settings} templateId={activeTemplate.id} onSettings={(key, value) => setSettings((current) => ({ ...current, [key]: value }))} onTemplate={setTemplateId} onNudge={nudge} onZoom={zoomSelected} onSetZoom={setSelectedZoom} onReset={resetPosition} onExport={download} exporting={exporting}/>
     </div>
-    <footer className="status-bar"><span>{status}</span><span>图片数量：{photos.length}</span><span>画布比例：{settings.ratio}</span></footer>
+    <footer className="status-bar"><span>图片 {photos.length} / 6</span><span>所有处理均在浏览器本地完成</span><span>{settings.ratio} · 长边 {settings.longEdge}px · {settings.format}</span></footer>
   </div>
 }
