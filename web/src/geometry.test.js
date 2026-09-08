@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { canvasSize, coverCrop, getTemplates, imagePlacement, pixelCells } from './geometry.js'
+import { canvasSize, coverCrop, getTemplates, imagePlacement, MAX_PHOTOS, pixelCells } from './geometry.js'
 
 describe('collage geometry', () => {
   it('creates portrait canvas from long edge', () => {
@@ -19,6 +19,24 @@ describe('collage geometry', () => {
     expect(fivePhotoLayout.cells.slice(1).every((cell) => cell.y === .66 && cell.width === .25)).toBe(true)
     expect(sixPhotoLayout.cells.slice(1)).toHaveLength(5)
     expect(sixPhotoLayout.cells.at(-1).x + sixPhotoLayout.cells.at(-1).width).toBeCloseTo(1)
+  })
+
+  it('offers a smaller top main image with eight photos in a 4 by 2 grid below', () => {
+    const layout = getTemplates(9).find((item) => item.id === 'nine-top-eight')
+    const secondaryCells = layout.cells.slice(1)
+
+    expect(MAX_PHOTOS).toBe(9)
+    expect(layout.name).toBe('上主下8')
+    expect(layout.cells[0]).toEqual({ x: 0, y: 0, width: 1, height: .44 })
+    expect(secondaryCells).toHaveLength(8)
+    expect(secondaryCells.every((cell) => cell.width === .25 && cell.height === .28)).toBe(true)
+    expect(secondaryCells.at(-1).x + secondaryCells.at(-1).width).toBe(1)
+    expect(secondaryCells.at(-1).y + secondaryCells.at(-1).height).toBe(1)
+  })
+
+  it('keeps all photos visible while importing seven or eight images', () => {
+    expect(getTemplates(7).every((item) => item.cells.length === 7)).toBe(true)
+    expect(getTemplates(8).every((item) => item.cells.length === 8)).toBe(true)
   })
 
   it('applies gap while keeping cells inside canvas', () => {

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { ImagePlus, LockKeyhole } from 'lucide-react'
+import { MAX_PHOTOS } from '../geometry.js'
 import { renderCollage } from '../renderer.js'
 
 export function CanvasPreview({ photos, settings, template, onFiles }) {
@@ -26,7 +27,7 @@ export function CanvasPreview({ photos, settings, template, onFiles }) {
     <div className={`canvas-frame ${photos.length ? '' : 'is-empty'}`}>
       {photos.length
         ? <canvas ref={canvasRef} aria-label="拼图预览" />
-        : <div className="empty-state"><ImagePlus size={42}/><strong>把图片拖到这里</strong><span>支持 JPG、PNG、WebP，最多 6 张</span></div>}
+        : <div className="empty-state"><ImagePlus size={42}/><strong>把图片拖到这里</strong><span>支持 JPG、PNG、WebP，最多 {MAX_PHOTOS} 张</span></div>}
     </div>
     <div className="canvas-footnote"><LockKeyhole size={13}/><span>图片不会离开这台设备</span></div>
   </main>

@@ -1,5 +1,20 @@
 const rect = (x, y, width, height) => ({ x, y, width, height })
 const template = (id, name, ...cells) => ({ id, name, cells })
+export const MAX_PHOTOS = 9
+
+function balancedGrid(id, name, count, columns) {
+  const rows = Math.ceil(count / columns)
+  const cells = []
+  let photoIndex = 0
+  for (let row = 0; row < rows; row += 1) {
+    const rowCount = Math.min(columns, count - photoIndex)
+    for (let column = 0; column < rowCount; column += 1) {
+      cells.push(rect(column / rowCount, row / rows, 1 / rowCount, 1 / rows))
+      photoIndex += 1
+    }
+  }
+  return template(id, name, ...cells)
+}
 
 function topMainStrip(id, count, mainHeight) {
   const secondaryCount = count - 1
@@ -9,6 +24,18 @@ function topMainStrip(id, count, mainHeight) {
     cells.push(rect(index * secondaryWidth, mainHeight, secondaryWidth, 1 - mainHeight))
   }
   return template(id, '上主下拼', ...cells)
+}
+
+function topMainEight() {
+  const mainHeight = .44
+  const secondaryHeight = (1 - mainHeight) / 2
+  const cells = [rect(0, 0, 1, mainHeight)]
+  for (let index = 0; index < 8; index += 1) {
+    const row = Math.floor(index / 4)
+    const column = index % 4
+    cells.push(rect(column / 4, mainHeight + row * secondaryHeight, .25, secondaryHeight))
+  }
+  return template('nine-top-eight', '上主下8', ...cells)
 }
 
 const TEMPLATES = {
@@ -42,10 +69,16 @@ const TEMPLATES = {
     template('six-feature', '主图拼接', rect(0, 0, .58, .66), rect(.58, 0, .42, 1 / 3), rect(.58, 1 / 3, .42, 1 / 3), rect(0, .66, 1 / 3, .34), rect(1 / 3, .66, 1 / 3, .34), rect(2 / 3, .66, 1 / 3, .34)),
     topMainStrip('six-top-strip', 6, .62),
   ],
+  7: [balancedGrid('seven-grid', '4+3', 7, 4)],
+  8: [balancedGrid('eight-grid', '4×2', 8, 4)],
+  9: [
+    balancedGrid('nine-grid', '3×3', 9, 3),
+    topMainEight(),
+  ],
 }
 
 export function getTemplates(count) {
-  return TEMPLATES[Math.max(1, Math.min(6, count))]
+  return TEMPLATES[Math.max(1, Math.min(MAX_PHOTOS, count))]
 }
 
 export function canvasSize(ratioText, longEdge) {

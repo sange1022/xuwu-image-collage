@@ -163,6 +163,22 @@ button:disabled { opacity: .38; cursor: not-allowed; }
 .dpad button:nth-child(5) { grid-column: 2; grid-row: 3; }
 .position-readout { display: grid; grid-template-columns: auto auto; gap: 7px 12px; font-size: 9px; color: var(--tertiary); }
 .position-readout strong { color: #3a3a3c; text-align: right; font-variant-numeric: tabular-nums; }
+.toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 11px; cursor: pointer; }
+.toggle-row.compact { margin-top: 12px; }
+.toggle-copy { display: grid; gap: 3px; }
+.toggle-copy strong { color: var(--text); font-size: 10px; font-weight: 550; }
+.toggle-copy small { color: var(--tertiary); font-size: 8px; }
+.toggle-row input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+.switch-track { position: relative; flex: 0 0 auto; width: 34px; height: 20px; border-radius: 999px; background: #d1d1d6; box-shadow: inset 0 0 0 1px rgba(60,60,67,.08); transition: background-color 180ms ease; }
+.switch-track::after { content: ''; position: absolute; width: 16px; height: 16px; top: 2px; left: 2px; border-radius: 50%; background: white; box-shadow: 0 1px 3px rgba(0,0,0,.22); transition: transform 220ms cubic-bezier(.22,.8,.28,1); }
+.toggle-row input:checked + .switch-track { background: #34c759; }
+.toggle-row input:checked + .switch-track::after { transform: translateX(14px); }
+.toggle-row input:focus-visible + .switch-track { outline: 3px solid rgba(0,122,255,.24); outline-offset: 2px; }
+.toggle-row input:disabled + .switch-track { opacity: .42; }
+.caption-field { display: grid; gap: 6px; margin-top: 13px; }
+.caption-field input { width: 100%; height: 31px; padding: 0 9px; color: var(--text); background: rgba(255,255,255,.68); border: 1px solid var(--border); border-radius: 8px; outline: none; }
+.caption-field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,122,255,.13); }
+.caption-field input:disabled { color: var(--tertiary); background: rgba(118,118,128,.06); }
 .zoom-controls { display: grid; grid-template-columns: 31px minmax(0, 1fr) 31px; align-items: center; gap: 8px; margin-top: 10px; }
 .zoom-controls button {
   min-height: 30px; padding: 0; border: 1px solid var(--border); background: rgba(255,255,255,.62);

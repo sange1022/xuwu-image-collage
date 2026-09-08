@@ -1,8 +1,9 @@
 import { ArrowDown, ArrowUp, GripVertical, ImagePlus, Trash2, X } from 'lucide-react'
+import { MAX_PHOTOS } from '../geometry.js'
 
 export function PhotoRail({ photos, selectedId, onSelect, onAdd, onRemove, onClear, onMove }) {
   return <aside className="photo-rail">
-    <div className="panel-heading"><div><h2>图片</h2><p>选择一张图片进行单独调整</p></div><span>{photos.length} / 6</span></div>
+    <div className="panel-heading"><div><h2>图片</h2><p>选择一张图片进行单独调整</p></div><span>{photos.length} / {MAX_PHOTOS}</span></div>
     <div className="rail-actions">
       <label className="button primary"><ImagePlus size={16}/>添加图片<input type="file" accept="image/*" multiple onChange={(e) => onAdd(e.target.files)}/></label>
       <button className="button" onClick={onRemove} disabled={!photos.length}><Trash2 size={15}/>移除</button>

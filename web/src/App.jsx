@@ -3,7 +3,7 @@ import { Download, Images, ShieldCheck } from 'lucide-react'
 import { CanvasPreview } from './components/CanvasPreview.jsx'
 import { Inspector } from './components/Inspector.jsx'
 import { PhotoRail } from './components/PhotoRail.jsx'
-import { getTemplates } from './geometry.js'
+import { getTemplates, MAX_PHOTOS } from './geometry.js'
 import { exportCollage, loadPhoto, qaDemoFiles } from './renderer.js'
 import './styles.css'
 
@@ -27,9 +27,9 @@ export default function App() {
   const selected = photos.find((photo) => photo.id === selectedId) || photos[0] || null
 
   const addFiles = async (fileList) => {
-    const available = Math.max(0, 6 - photos.length)
+    const available = Math.max(0, MAX_PHOTOS - photos.length)
     const files = [...fileList].filter((file) => file.type.startsWith('image/')).slice(0, available)
-    if (!files.length) { setStatus(available ? '请选择图片文件' : '单张拼图最多 6 张图片'); return }
+    if (!files.length) { setStatus(available ? '请选择图片文件' : `单张拼图最多 ${MAX_PHOTOS} 张图片`); return }
     setStatus(`正在读取 ${files.length} 张图片…`)
     const results = await Promise.allSettled(files.map(loadPhoto))
     const loaded = results.filter((result) => result.status === 'fulfilled').map((result) => result.value)
@@ -101,6 +101,11 @@ export default function App() {
     setPhotos((current) => current.map((photo) => photo.id === selected.id ? { ...photo, offsetX: 0, offsetY: 0, zoom: 1 } : photo))
   }
 
+  const setPhotoCaption = (key, value) => {
+    if (!selected) return
+    setPhotos((current) => current.map((photo) => photo.id === selected.id ? { ...photo, [key]: value } : photo))
+  }
+
   const download = async () => {
     setExporting(true); setStatus('正在生成高清拼图…')
     try {
@@ -130,8 +135,8 @@ export default function App() {
     <div className="workspace">
       <PhotoRail photos={photos} selectedId={selected?.id} onSelect={setSelectedId} onAdd={addFiles} onRemove={removeSelected} onClear={clear} onMove={move}/>
       <CanvasPreview photos={photos} settings={settings} template={activeTemplate} onFiles={addFiles}/>
-      <Inspector photos={photos} selected={selected} settings={settings} templateId={activeTemplate.id} onSettings={(key, value) => setSettings((current) => ({ ...current, [key]: value }))} onTemplate={setTemplateId} onNudge={nudge} onZoom={zoomSelected} onSetZoom={setSelectedZoom} onReset={resetPosition} onExport={download} exporting={exporting}/>
+      <Inspector photos={photos} selected={selected} settings={settings} templateId={activeTemplate.id} onSettings={(key, value) => setSettings((current) => ({ ...current, [key]: value }))} onTemplate={setTemplateId} onNudge={nudge} onZoom={zoomSelected} onSetZoom={setSelectedZoom} onReset={resetPosition} onCaption={setPhotoCaption} onExport={download} exporting={exporting}/>
     </div>
-    <footer className="status-bar"><span>图片 {photos.length} / 6</span><span>所有处理均在浏览器本地完成</span><span>{settings.ratio} · 长边 {settings.longEdge}px · {settings.format}</span></footer>
+    <footer className="status-bar"><span>图片 {photos.length} / {MAX_PHOTOS}</span><span>所有处理均在浏览器本地完成</span><span>{settings.ratio} · 长边 {settings.longEdge}px · {settings.format}</span></footer>
   </div>
 }
