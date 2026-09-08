@@ -32,7 +32,7 @@ export function Inspector({ photos, selected, settings, templateId, onSettings, 
     </div></section>
     <section><div className="section-title"><h3>图片文字</h3><span>左下角</span></div>
       <label className="toggle-row">
-        <span className="toggle-copy"><strong>显示文字说明</strong><small>仅应用到当前图片</small></span>
+        <span className="toggle-copy"><strong>显示文字说明</strong><small>每张默认显示，可单独关闭</small></span>
         <input aria-label="显示当前图片文字" type="checkbox" checked={selected?.captionEnabled || false} disabled={!selected} onChange={(e) => onCaption('captionEnabled', e.target.checked)}/><span className="switch-track" aria-hidden="true"/>
       </label>
       <label className="caption-field"><span>文字内容</span><input aria-label="当前图片说明文字" type="text" maxLength="40" value={selected?.caption || ''} disabled={!selected || !selected.captionEnabled} onChange={(e) => onCaption('caption', e.target.value)}/></label>

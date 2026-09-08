@@ -7,7 +7,7 @@ export function loadPhoto(file) {
     image.onload = () => resolve({
       id: crypto.randomUUID(), name: file.name, url, image,
       width: image.naturalWidth, height: image.naturalHeight, offsetX: 0, offsetY: 0, zoom: 1,
-      captionEnabled: false, caption: file.name.replace(/\.[^.]+$/, ''), captionBackground: true,
+      captionEnabled: true, caption: file.name.replace(/\.[^.]+$/, ''), captionBackground: true,
     })
     image.onerror = () => { URL.revokeObjectURL(url); reject(new Error(`无法读取 ${file.name}`)) }
     image.src = url
