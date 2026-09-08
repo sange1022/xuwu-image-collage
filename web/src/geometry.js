@@ -1,6 +1,16 @@
 const rect = (x, y, width, height) => ({ x, y, width, height })
 const template = (id, name, ...cells) => ({ id, name, cells })
 
+function topMainStrip(id, count, mainHeight) {
+  const secondaryCount = count - 1
+  const secondaryWidth = 1 / secondaryCount
+  const cells = [rect(0, 0, 1, mainHeight)]
+  for (let index = 0; index < secondaryCount; index += 1) {
+    cells.push(rect(index * secondaryWidth, mainHeight, secondaryWidth, 1 - mainHeight))
+  }
+  return template(id, '上主下拼', ...cells)
+}
+
 const TEMPLATES = {
   1: [template('one', '单图', rect(0, 0, 1, 1))],
   2: [
@@ -25,10 +35,12 @@ const TEMPLATES = {
     template('five-left', '左侧主图', rect(0, 0, .58, 1), rect(.58, 0, .42, .25), rect(.58, .25, .42, .25), rect(.58, .5, .42, .25), rect(.58, .75, .42, .25)),
     template('five-top', '上方主图', rect(0, 0, 1, .56), rect(0, .56, .25, .44), rect(.25, .56, .25, .44), rect(.5, .56, .25, .44), rect(.75, .56, .25, .44)),
     template('five-mosaic', '错落', rect(0, 0, .4, .5), rect(.4, 0, .6, .34), rect(.4, .34, .3, .66), rect(.7, .34, .3, .33), rect(.7, .67, .3, .33)),
+    topMainStrip('five-top-strip', 5, .66),
   ],
   6: [
     template('six-grid', '2×3', rect(0, 0, .5, 1 / 3), rect(.5, 0, .5, 1 / 3), rect(0, 1 / 3, .5, 1 / 3), rect(.5, 1 / 3, .5, 1 / 3), rect(0, 2 / 3, .5, 1 / 3), rect(.5, 2 / 3, .5, 1 / 3)),
     template('six-feature', '主图拼接', rect(0, 0, .58, .66), rect(.58, 0, .42, 1 / 3), rect(.58, 1 / 3, .42, 1 / 3), rect(0, .66, 1 / 3, .34), rect(1 / 3, .66, 1 / 3, .34), rect(2 / 3, .66, 1 / 3, .34)),
+    topMainStrip('six-top-strip', 6, .62),
   ],
 }
 

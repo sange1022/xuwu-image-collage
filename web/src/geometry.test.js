@@ -10,6 +10,17 @@ describe('collage geometry', () => {
     expect(getTemplates(5).every((template) => template.cells.length === 5)).toBe(true)
   })
 
+  it('offers a top-main layout with all remaining photos joined below', () => {
+    const fivePhotoLayout = getTemplates(5).find((item) => item.id === 'five-top-strip')
+    const sixPhotoLayout = getTemplates(6).find((item) => item.id === 'six-top-strip')
+
+    expect(fivePhotoLayout.name).toBe('上主下拼')
+    expect(fivePhotoLayout.cells[0]).toEqual({ x: 0, y: 0, width: 1, height: .66 })
+    expect(fivePhotoLayout.cells.slice(1).every((cell) => cell.y === .66 && cell.width === .25)).toBe(true)
+    expect(sixPhotoLayout.cells.slice(1)).toHaveLength(5)
+    expect(sixPhotoLayout.cells.at(-1).x + sixPhotoLayout.cells.at(-1).width).toBeCloseTo(1)
+  })
+
   it('applies gap while keeping cells inside canvas', () => {
     const cells = pixelCells(getTemplates(4)[0], 1200, 1600, 20)
     expect(cells).toHaveLength(4)
