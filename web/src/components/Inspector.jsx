@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Download, LocateFixed, Minus, Plus } from 'lucide-react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Download, Eye, EyeOff, LocateFixed, Minus, Plus } from 'lucide-react'
 import { getTemplates } from '../geometry.js'
 
 const ratios = ['3:4', '1:1', '9:16', '2:3', '4:3', '3:2', '16:9']
@@ -7,9 +7,11 @@ function TemplateIcon({ template }) {
   return <svg viewBox="0 0 54 54" aria-hidden="true">{template.cells.map((cell, i) => <rect key={i} x={2 + cell.x * 50} y={2 + cell.y * 50} width={Math.max(2, cell.width * 50 - 2)} height={Math.max(2, cell.height * 50 - 2)} rx="2"/>)}</svg>
 }
 
-export function Inspector({ photos, selected, settings, templateId, onSettings, onTemplate, onNudge, onZoom, onSetZoom, onReset, onCaption, onExport, exporting }) {
+export function Inspector({ photos, selected, settings, templateId, onSettings, onTemplate, onNudge, onZoom, onSetZoom, onReset, onCaption, onToggleAllCaptions, onExport, exporting }) {
   const templates = getTemplates(photos.length || 1)
   const selectedZoom = selected?.zoom || 1
+  const enabledCaptionCount = photos.reduce((count, photo) => count + (photo.captionEnabled ? 1 : 0), 0)
+  const allCaptionsEnabled = photos.length > 0 && enabledCaptionCount === photos.length
   return <aside className="inspector">
     <div className="panel-heading inspector-heading"><div><h2>设置</h2><p>实时预览所有调整</p></div></div>
     <section><div className="section-title"><h3>画布比例</h3><span>{settings.ratio}</span></div><div className="ratio-grid">{ratios.map((ratio) => <button key={ratio} className={settings.ratio === ratio ? 'active' : ''} aria-pressed={settings.ratio === ratio} onClick={() => onSettings('ratio', ratio)}>{ratio}</button>)}</div></section>
@@ -31,6 +33,9 @@ export function Inspector({ photos, selected, settings, templateId, onSettings, 
       <div className="position-readout"><span>水平</span><strong>{Math.round((selected?.offsetX || 0) * 100)}%</strong><span>垂直</span><strong>{Math.round((selected?.offsetY || 0) * 100)}%</strong></div>
     </div></section>
     <section><div className="section-title"><h3>图片文字</h3><span>左下角</span></div>
+      <button className={`caption-all-button ${allCaptionsEnabled ? 'all-on' : ''}`} aria-label={allCaptionsEnabled ? '全部关闭文字' : '全部开启文字'} disabled={!photos.length} onClick={onToggleAllCaptions}>
+        {allCaptionsEnabled ? <EyeOff size={15}/> : <Eye size={15}/>}<span>{allCaptionsEnabled ? '全部关闭文字' : '全部开启文字'}</span><small>{enabledCaptionCount} / {photos.length}</small>
+      </button>
       <label className="toggle-row">
         <span className="toggle-copy"><strong>显示文字说明</strong><small>每张默认显示，可单独关闭</small></span>
         <input aria-label="显示当前图片文字" type="checkbox" checked={selected?.captionEnabled || false} disabled={!selected} onChange={(e) => onCaption('captionEnabled', e.target.checked)}/><span className="switch-track" aria-hidden="true"/>

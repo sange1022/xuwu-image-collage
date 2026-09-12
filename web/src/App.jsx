@@ -106,6 +106,13 @@ export default function App() {
     setPhotos((current) => current.map((photo) => photo.id === selected.id ? { ...photo, [key]: value } : photo))
   }
 
+  const toggleAllCaptions = () => {
+    setPhotos((current) => {
+      const nextEnabled = current.some((photo) => !photo.captionEnabled)
+      return current.map((photo) => ({ ...photo, captionEnabled: nextEnabled }))
+    })
+  }
+
   const download = async () => {
     setExporting(true); setStatus('正在生成高清拼图…')
     try {
@@ -135,7 +142,7 @@ export default function App() {
     <div className="workspace">
       <PhotoRail photos={photos} selectedId={selected?.id} onSelect={setSelectedId} onAdd={addFiles} onRemove={removeSelected} onClear={clear} onMove={move}/>
       <CanvasPreview photos={photos} settings={settings} template={activeTemplate} onFiles={addFiles}/>
-      <Inspector photos={photos} selected={selected} settings={settings} templateId={activeTemplate.id} onSettings={(key, value) => setSettings((current) => ({ ...current, [key]: value }))} onTemplate={setTemplateId} onNudge={nudge} onZoom={zoomSelected} onSetZoom={setSelectedZoom} onReset={resetPosition} onCaption={setPhotoCaption} onExport={download} exporting={exporting}/>
+      <Inspector photos={photos} selected={selected} settings={settings} templateId={activeTemplate.id} onSettings={(key, value) => setSettings((current) => ({ ...current, [key]: value }))} onTemplate={setTemplateId} onNudge={nudge} onZoom={zoomSelected} onSetZoom={setSelectedZoom} onReset={resetPosition} onCaption={setPhotoCaption} onToggleAllCaptions={toggleAllCaptions} onExport={download} exporting={exporting}/>
     </div>
     <footer className="status-bar"><span>图片 {photos.length} / {MAX_PHOTOS}</span><span>所有处理均在浏览器本地完成</span><span>{settings.ratio} · 长边 {settings.longEdge}px · {settings.format}</span></footer>
   </div>
